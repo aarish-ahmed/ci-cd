@@ -34,3 +34,9 @@ jobs:
           CI: "true"
           NEXT_TELEMETRY_DISABLED: 1
         run: npm run build
+
+      - name: build client docker image
+        run: docker build -t my-client ./client
+
+      - name: build server docker image
+        run: docker build -t my-server ./server
