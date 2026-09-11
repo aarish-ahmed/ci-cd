@@ -1,31 +1,36 @@
-name: CI 
+name: CI
+
 on:
   push:
-     branches:
-          - main
+    branches:
+      - main
   pull_request:
-     branches:
-          - main
+    branches:
+      - main
+
 jobs:
   build:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout code
-           uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-         - name: Setup NOde
-           uses: actions/setup-node@v4
-           with:
-              node-version: 22
-         - name: Install server dependencies
-           working-directory: ./server 
-           run: npm ci
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-         - name: Install client dependencies
-           working-directory: ./client
-           run: npm ci 
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm ci
 
-         - name: build client
-           working-directory: ./client
-           run: npm run build
-           
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Build client
+        working-directory: ./client
+        env:
+          CI: "true"
+          NEXT_TELEMETRY_DISABLED: 1
+        run: npm run build
